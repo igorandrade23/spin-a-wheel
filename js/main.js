@@ -1,7 +1,7 @@
 // Configurações iniciais
 const config = {
     slices: 12,
-    colors: ['#1a1a1a', '#8B0000', '#4B0082', '#006400', '#8B4513', '#2F4F4F', '#8B008B', '#228B22', '#483D8B', '#556B2F', '#B8860B', '#000000'],
+    colors: ['#ff0000', '#000000', '#ff0000', '#000000', '#ff0000', '#000000', '#ff0000', '#000000', '#ff0000', '#000000', '#ff0000', '#000000'],
 };
 
 // Frases e ícones para a roda
@@ -70,13 +70,16 @@ document.addEventListener('DOMContentLoaded', () => {
             itemContent.appendChild(text);
             itemContainer.appendChild(itemContent);
 
+            // Define a cor do texto como branco para garantir a legibilidade
+            itemContent.style.color = '#ffffff';
+
             const angle = (sliceAngle * index) + (sliceAngle / 2);
 
             // A rotação do contêiner é (angle + 90). A contra-rotação do conteúdo deve ser o inverso.
             itemContent.style.transform = `rotate(-${angle + 90}deg)`;
             const rotation = angle * (Math.PI / 180);
-            const x = Math.cos(rotation) * (sliceRadius * 0.65); // 65% from center
-            const y = Math.sin(rotation) * (sliceRadius * 0.65);
+            const x = Math.cos(rotation) * (sliceRadius * 0.8); // 80% from center
+            const y = Math.sin(rotation) * (sliceRadius * 0.8);
 
             itemContainer.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px) rotate(${angle + 90}deg)`;
 
@@ -114,7 +117,11 @@ document.addEventListener('DOMContentLoaded', () => {
         wheel.addEventListener('transitionend', () => {
             const finalRotation = currentRotation % 360;
             const sliceAngle = 360 / config.slices;
-            const winningIndex = Math.floor((360 - finalRotation + (sliceAngle / 2)) % 360 / sliceAngle);
+
+            // O ponteiro está no topo (a 270 graus no círculo trigonométrico).
+            // Calculamos qual fatia está nessa posição após a rotação.
+            const realAngle = (360 - finalRotation + 270) % 360;
+            const winningIndex = Math.floor(realAngle / sliceAngle);
 
             showResult(winningIndex);
             isSpinning = false;
