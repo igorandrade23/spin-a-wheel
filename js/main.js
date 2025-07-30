@@ -8,12 +8,12 @@ var gameOptions = {
 
     // prize names, starting from 12 o'clock going clockwise
     slicePrizes: [
-        "🎉 5% OFF",
-        "🎉 10% OFF",
-        "🎉 15% OFF",
-        "🎉 25% OFF",
-        "🎉 50% OFF",
-        "🎉 FREE PASTRY 🍰"
+        "🐉 Dragão Oriental",
+        "🌹 Rosa Realista",
+        "🔯 Mandala Sagrada",
+        "🦅 Águia Americana",
+        "🔱 Tridente Tribal",
+        "☯️ Símbolo Yin Yang"
     ],
 
     // wheel rotation duration, in milliseconds
@@ -76,7 +76,7 @@ class playGame extends Phaser.Scene {
         this.pin = this.add.sprite(game.config.width / 2, game.config.height / 2, "pin");
 
         // adding the text field
-        this.prizeText = this.add.text(game.config.width / 2, game.config.height - 35, "SPIN TO WIN", {
+        this.prizeText = this.add.text(game.config.width / 2, game.config.height - 35, "GIRE A RODA", {
             font: "bold 64px Rajdhani",
             align: "center",
             color: "white"
@@ -135,10 +135,10 @@ class playGame extends Phaser.Scene {
                 // function to be executed once the tween has been completed
                 onComplete: function (tween) {
                     // displaying prize text
-                    this.prizeText.setText(gameOptions.slicePrizes[prize]);
+                    this.prizeText.setText("Você ganhou: " + gameOptions.slicePrizes[prize]);
 
                     // player can spin again
-                    this.canSpin = false;
+                    this.canSpin = true;
                 }
             });
         }
