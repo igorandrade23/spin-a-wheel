@@ -25,64 +25,51 @@
 
 body {
     font-family: 'Bebas Neue', cursive;
-    background-color: var(--dark-gray);
-    color: var(--white);
+    background-color: #fdf6e4; /* Cor de fundo da imagem de referência */
+    color: #000000;
     margin: 0;
-    padding: 20px;
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0dGVybiBpZD0icGF0dGVybi1iYXNlIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSgxMzUpIHNjYWxlKDAuMDUpIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTAgMEg0MFY0MEgweiIgZmlsbD0iIzFhMWEyMiIvPjwvcGF0dGVybj48L3N2Zz4=');
+    height: 100vh;
+    overflow: hidden; /* Esconde barras de rolagem */
 }
 
 .container {
-    text-align: center;
-    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    padding: 20px;
+    height: 100%;
 }
 
-/* Título do jogo */
-.game-title {
-    margin-bottom: 30px;
-    text-transform: uppercase;
-}
+
 
 .game-title h1 {
-    color: var(--red);
-    font-size: 4.5em;
-    line-height: 0.9;
-    text-shadow: 3px 3px 0 var(--dark-red), 
-                 5px 5px 0 rgba(0, 0, 0, 0.5);
+    color: #000000;
+    font-size: 4em;
+    line-height: 1;
     letter-spacing: 2px;
-    margin: 0;
+    margin: 0 0 15px 0; /* Adiciona margem inferior para espaçamento */
     font-family: 'Bebas Neue', cursive;
 }
 
-.game-title h2 {
-    color: var(--white);
-    font-size: 2.5em;
-    margin: 0;
-    letter-spacing: 3px;
-    font-family: 'Dancing Script', cursive;
-    text-shadow: 2px 2px 0 var(--dark-red);
-}
+
 
 /* Container da roda */
 .wheel-container {
     position: relative;
-    width: 100%;
-    max-width: 400px;
-    height: 400px;
-    margin: 0 auto 30px;
-    background: var(--black);
+    width: 90vmin; /* 90% da menor dimensão da tela */
+    height: 90vmin;
+    margin: 0;
+    background: #f9e095; /* Cor da borda da roleta */
     border-radius: 50%;
     padding: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 
-                inset 0 0 30px rgba(0, 0, 0, 0.5);
-    border: 10px solid var(--gray);
-    transform: scale(0.9);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 
+                inset 0 0 30px rgba(0, 0, 0, 0.1);
+    border: 10px solid #000;
     transition: transform 0.3s ease;
     overflow: visible;
 }
@@ -127,15 +114,35 @@ body {
     left: 50%;
     top: 50%;
     transform-origin: center; /* A origem da transformação é o centro */
+    width: 25%; /* Largura da fatia */
+    height: 50%; /* Altura da fatia */
 }
 
 .wheel-item-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    position: relative; /* Ativa o posicionamento absoluto para os filhos */
+    width: 100%;
+    height: 100%;
+    font-family: 'Permanent Marker', cursive;
+    color: #000000;
+}
+
+.wheel-item-content .emoji {
+    position: absolute;
+    top: 90%; /* Posição do emoji, perto da borda */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 3.5vmin;
+}
+
+.wheel-item-content .text {
+    position: absolute;
+    bottom: 30%; /* Posição do texto, perto do centro */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%; /* Restringe a largura para o texto se ajustar à fatia */
+    font-size: 1.6vmin;
+    line-height: 1.2;
     text-align: center;
-    color: white;
 }
 
 /* Ponteiro */
@@ -174,22 +181,20 @@ body {
 
 /* Botão de girar */
 .spin-btn {
+    position: absolute;
+    bottom: 20px;
+    padding: 10px 25px;
+    font-size: 1.5em;
+    letter-spacing: 2px;
     background: var(--red);
     color: white;
     border: none;
-    padding: 15px 50px;
-    font-size: 1.8em;
-    font-family: 'Bebas Neue', cursive;
-    letter-spacing: 2px;
     border-radius: 50px;
     cursor: pointer;
-    text-transform: uppercase;
-    margin-top: 20px;
-    position: relative;
-    overflow: hidden;
     transition: all 0.3s ease;
     box-shadow: 0 5px 0 var(--dark-red), 
                 0 10px 20px rgba(0, 0, 0, 0.3);
+    z-index: 50;
 }
 
 .spin-btn:hover {

@@ -1,23 +1,23 @@
 // Configurações iniciais
 const config = {
     slices: 12,
-    colors: ['#ff0000', '#000000', '#ff0000', '#000000', '#ff0000', '#000000', '#ff0000', '#000000', '#ff0000', '#000000', '#ff0000', '#000000'],
+    colors: ['#84c3b5', '#f0a08d', '#f9e095', '#f0a08d', '#84c3b5', '#f9e095', '#84c3b5', '#f0a08d', '#f9e095', '#f0a08d', '#84c3b5', '#f9e095'],
 };
 
 // Frases e ícones para a roda
 const wheelItems = [
-    { text: 'Bepantol', emoji: '🧼', message: 'Você passou bepantol por uma semana e agora brilha igual bacon!' },
-    { text: 'Coçou', emoji: '🔥', message: 'Tatuou no calor, se coçou no banho, e agora sua tattoo virou arte abstrata.' },
-    { text: 'Vó viu', emoji: '👵', message: 'Sua avó viu e perguntou se virou marginal.' },
-    { text: 'PIX', emoji: '💸', message: 'Gastou todo o PIX e agora vive de miojo. Mas tá estilosa.' },
-    { text: 'Desmaiou', emoji: '💉', message: 'Você desmaiou na linha fina. Mas jurou que foi pressão baixa.' },
-    { text: 'Filtro', emoji: '🧴', message: 'Usou filtro no Instagram pra esconder a casquinha. A beleza tá no healing!' },
-    { text: 'Ex', emoji: '🫣', message: 'Descobriu que o nome do ex não sai com laser tão fácil assim…' },
-    { text: 'Vegana', emoji: '🌿', message: 'Fez a tattoo, virou vegana, está no seu auge espiritual.' },
-    { text: 'Arrependeu', emoji: '👁', message: 'Todo mundo reparou na sua tattoo. Ou no seu arrependimento?' },
-    { text: 'Cicatrizou', emoji: '🕷', message: 'A tattoo cicatrizou linda. Só não mostra porque tá com vergonha da frase.' },
-    { text: 'Obra de arte', emoji: '🎨', message: 'Cliente virou obra de arte. Literalmente. Até a mãe aplaudiu.' },
-    { text: 'Bêbada', emoji: '💀', message: 'Fez a tattoo bêbada. Agora tem um ET nas costas.' }
+    { text: 'Passou Bepantol por uma semana e agora brilha igual bacon!', emoji: '🧴' },
+    { text: 'Tatuou no calor, se coçou no banho e agora sua tattoo virou arte abstrata', emoji: '🔥' },
+    { text: 'Sua avó viu e virou marginal', emoji: '👵' },
+    { text: 'Você desistiu na linha fina, mas usou o consolo "foi pressão baixa"', emoji: '🌿' },
+    { text: 'Descobriu que o nome do ex não sai tão fácil assim...', emoji: '💧' },
+    { text: 'A tattoo cicatrizou linda, só não mostra porque tá com vergonha', emoji: '💀' },
+    { text: 'Só o ninho na sua tattoo, imagina o auge do seu arrependimento?', emoji: '🕷️' },
+    { text: 'Fez a tattoo bêbada. Agora tem um ET nas costas', emoji: '👽' },
+    { text: 'Cliente virou obra de arte, literalmente. Até a mãe aplaudiu', emoji: '🎨' },
+    { text: 'Todo mundo reparou na sua tattoo. Ou no seu arrependimento?', emoji: '👁️' },
+    { text: 'Fez a tattoo, virou vegana, está no seu auge espiritual?', emoji: '✨' },
+    { text: 'O tatuador era seu amigo e agora a amizade acabou', emoji: '✒️' }
 ];
 
 // Variável global para o confetti
@@ -76,18 +76,18 @@ document.addEventListener('DOMContentLoaded', () => {
             text.className = 'text';
             text.textContent = item.text;
 
-            // Adiciona o emoji e o texto ao conteúdo da fatia  
+            // Adiciona o emoji e o texto ao conteúdo da fatia
             itemContent.appendChild(emoji);
             itemContent.appendChild(text);
             itemContainer.appendChild(itemContent);
 
-            // Define a cor do texto como branco para garantir a legibilidade
-            itemContent.style.color = '#ffffff';
+            // Define a cor do texto como preto para garantir a legibilidade
+            itemContent.style.color = '#000000';
 
             const angle = (sliceAngle * index) + (sliceAngle / 2);
 
             // A rotação do contêiner é (angle + 90). A contra-rotação do conteúdo deve ser o inverso.
-            itemContent.style.transform = `rotate(-${angle + 90}deg)`;
+            // itemContent.style.transform = `rotate(-${angle + 90}deg)`;
             const rotation = angle * (Math.PI / 180);
             const x = Math.cos(rotation) * (sliceRadius * 0.8); // 80% from center
             const y = Math.sin(rotation) * (sliceRadius * 0.8);
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function showResult(index) {
         // Mostra o resultado
         const winner = wheelItems[index];
-        resultText.textContent = winner.message;
+        resultText.textContent = winner.text;
         resultIcon.innerHTML = `<div class="emoji">${winner.emoji}</div>`;
 
         resultContainer.style.display = 'flex';
@@ -160,8 +160,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function shareResult() {
         // Compartilha o resultado
         navigator.share({
-            title: 'Tattouleta do Destino',
-            text: `Minha sorte na Tattouleta: ${resultText.textContent}`,
+            title: 'Roda da Tattoo',
+            text: `Minha sorte na Roda da Tattoo: ${resultText.textContent}`,
             url: window.location.href
         }).catch(console.error);
     }
