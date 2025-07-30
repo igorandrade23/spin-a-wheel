@@ -1,15 +1,610 @@
-body {
-    background: #000000;
-    padding: 0px;
-    margin: 0px;
-    font-family: 'Rajdhani', sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rajdhani:wght@400;500;700&display=swap');
+
+/* Variáveis de cores */
+:root {
+    --black: #1a1a1a;
+    --dark-red: #800000;
+    --red: #ff0000;
+    --light-red: #ff6b6b;
+    --pink: #ff9a9e;
+    --green: #a8e6cf;
+    --light-green: #dcedc1;
+    --beige: #ffd3b6;
+    --peach: #ffaaa5;
+    --white: #ffffff;
+    --gray: #2a2a2a;
+    --dark-gray: #121212;
 }
 
-canvas {
-    display: block;
+/* Estilos gerais */
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Bebas Neue', cursive;
+    background-color: var(--dark-gray);
+    color: var(--white);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0dGVybiBpZD0icGF0dGVybi1iYXNlIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSgxMzUpIHNjYWxlKDAuMDUpIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTAgMEg0MFY0MEgweiIgZmlsbD0iIzFhMWEyMiIvPjwvcGF0dGVybj48L3N2Zz4=');
+}
+
+.container {
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+    padding: 20px;
+}
+
+/* Título do jogo */
+.game-title {
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
+.game-title h1 {
+    color: var(--red);
+    font-size: 4.5em;
+    line-height: 0.9;
+    text-shadow: 3px 3px 0 var(--dark-red), 
+                 5px 5px 0 rgba(0, 0, 0, 0.5);
+    letter-spacing: 2px;
+    margin: 0;
+    font-family: 'Bebas Neue', cursive;
+}
+
+.game-title h2 {
+    color: var(--white);
+    font-size: 2.5em;
+    margin: 0;
+    letter-spacing: 3px;
+    font-family: 'Dancing Script', cursive;
+    text-shadow: 2px 2px 0 var(--dark-red);
+}
+
+/* Container da roda */
+.wheel-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    height: 400px;
+    margin: 0 auto 30px;
+    background: var(--black);
+    border-radius: 50%;
+    padding: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 
+                inset 0 0 30px rgba(0, 0, 0, 0.5);
+    border: 10px solid var(--gray);
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+    overflow: visible;
+}
+
+/* Efeito de hover na roda */
+.wheel-container:hover {
+    transform: scale(0.92);
+}
+
+/* Estilo da roda */
+.wheel {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+    transform: rotate(0deg);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+    background: var(--dark-gray);
+    z-index: 10;
+}
+
+/* Estilo do centro da roda */
+.wheel-center {
     position: absolute;
+    width: 60px;
+    height: 60px;
+    background: var(--black);
+    border-radius: 50%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 5;
+    border: 3px solid var(--red);
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
 }
+
+/* Itens da roda */
+.wheel-item {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    transform-origin: 100% 100%;
+    left: 0;
+    top: 0;
+    box-sizing: border-box;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    overflow: hidden;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+/* Efeito de hover nos itens */
+.wheel-item:hover {
+    filter: brightness(1.1);
+}
+
+/* Conteúdo dos itens */
+.wheel-item span {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform-origin: center center;
+    transform: rotate(calc(var(--rotation, 0) * 1deg)) translateY(-50%);
+    padding: 0;
+    margin: 0;
+    pointer-events: none;
+}
+
+/* Estilos movidos para o JavaScript */
+
+/* Estilos movidos para o JavaScript */
+
+/* Estilos movidos para o JavaScript */
+
+/* Ponteiro */
+.pointer {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    color: var(--red);
+    font-size: 40px;
+    text-shadow: 0 0 15px rgba(255, 0, 0, 0.9);
+    animation: bounce 1s infinite alternate;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.7));
+    pointer-events: none;
+    text-align: center;
+    line-height: 1;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pointer i {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Animação do ponteiro */
+@keyframes bounce {
+    from { transform: translate(-50%, -5px); }
+    to { transform: translate(-50%, 5px); }
+}
+
+/* Botão de girar */
+.spin-btn {
+    background: var(--red);
+    color: white;
+    border: none;
+    padding: 15px 50px;
+    font-size: 1.8em;
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 2px;
+    border-radius: 50px;
+    cursor: pointer;
+    text-transform: uppercase;
+    margin-top: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 0 var(--dark-red), 
+                0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.spin-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 0 var(--dark-red), 
+                0 15px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Conteúdo dos itens da roda */
+.wheel-item-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.wheel-item .emoji {
+    font-size: 1.8em;
+    margin-bottom: 5px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.wheel-item .text {
+    font-size: 0.9em;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    word-break: break-word;
+    max-width: 80%;
+    line-height: 1.1;
+}
+
+/* Modal de resultado */
+.result-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    padding: 20px;
+    text-align: center;
+}
+
+.result-content {
+    background: var(--black);
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 90%;
+    width: 100%;
+    max-width: 500px;
+    border: 3px solid var(--red);
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+    position: relative;
+    transform: scale(0.9);
+    animation: popIn 0.5s forwards;
+}
+
+@keyframes popIn {
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.result-icon {
+    font-size: 4em;
+    margin-bottom: 20px;
+    color: var(--red);
+    text-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+}
+
+.result-text {
+    font-size: 1.5em;
+    margin-bottom: 30px;
+    line-height: 1.4;
+    font-family: 'Dancing Script', cursive;
+    color: white;
+}
+
+/* Botões de ação */
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.action-btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.play-again {
+    background: var(--red);
+    color: white;
+    box-shadow: 0 4px 0 var(--dark-red);
+}
+
+.share {
+    background: #4267B2;
+    color: white;
+    box-shadow: 0 4px 0 #2a4a8a;
+}
+
+.gift {
+    background: #FFD700;
+    color: #333;
+    box-shadow: 0 4px 0 #b39b00;
+}
+
+.action-btn:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.1);
+}
+
+.action-btn:active {
+    transform: translateY(2px);
+    box-shadow: none;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .game-title h1 {
+        font-size: 3.5em;
+    }
+    
+    .game-title h2 {
+        font-size: 2em;
+    }
+    
+    .wheel-container {
+        max-width: 320px;
+        height: 320px;
+    }
+    
+    .wheel-item .emoji {
+        font-size: 1.5em;
+    }
+    
+    .wheel-item .text {
+        font-size: 0.8em;
+    }
+    
+    .spin-btn {
+        padding: 12px 40px;
+        font-size: 1.5em;
+    }
+    
+    .result-content {
+        padding: 30px 20px;
+    }
+    
+    .result-text {
+        font-size: 1.3em;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .action-btn {
+        width: 100%;
+    }
+}
+
+/* Animações */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Efeito de pulso no botão girar */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 5px 0 var(--dark-red), 
+                    0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 7px 0 var(--dark-red), 
+                    0 15px 30px rgba(0, 0, 0, 0.4);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 5px 0 var(--dark-red), 
+                    0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+}
+
+.spin-btn.pulse {
+    animation: pulse 1.5s infinite;
+}
+
+/* Melhorias de acessibilidade */
+.js-enabled [role="button"],
+.js-enabled button {
+    cursor: pointer;
+}
+
+.js-enabled [role="button"]:focus,
+.js-enabled button:focus {
+    outline: 3px solid #ff9900;
+    outline-offset: 2px;
+}
+
+.js-enabled [role="button"]:focus:not(:focus-visible),
+.js-enabled button:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.js-enabled [role="button"]:focus-visible,
+.js-enabled button:focus-visible {
+    outline: 3px solid #ff9900;
+    outline-offset: 2px;
+}
+
+/* Esconder elementos apenas para leitores de tela */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Melhor contraste para texto */
+.wheel-item-content {
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Melhor feedback visual para botões */
+.action-btn:active,
+.spin-btn:active {
+    transform: translateY(2px) !important;
+    box-shadow: none !important;
+}
+
+/* Efeito de brilho no título */
+.game-title h1 {
+    position: relative;
+    display: inline-block;
+}
+
+.spin-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 3px 0 var(--dark-red), 
+                0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Container do resultado */
+.result-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.5s ease;
+}
+
+/* Conteúdo do resultado */
+.result-content {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 90%;
+    width: 400px;
+    text-align: center;
+    position: relative;
+    border: 5px solid var(--red);
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+}
+
+/* Ícone do resultado */
+#result-icon {
+    font-size: 4em;
+    margin-bottom: 20px;
+    color: var(--red);
+}
+
+/* Texto do resultado */
+#result-text {
+    font-size: 1.5em;
+    margin-bottom: 30px;
+    color: var(--black);
+    font-family: 'Dancing Script', cursive;
+    line-height: 1.4;
+}
+
+/* Ações do resultado */
+.result-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Botões de ação */
+.action-btn {
+    background: var(--black);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 50px;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    letter-spacing: 1px;
+}
+
+.action-btn i {
+    font-size: 1.2em;
+}
+
+.action-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Botão de presente */
+.gift-btn {
+    background: var(--red);
+    margin-top: 15px;
+    font-size: 1.3em;
+    padding: 15px 20px;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Cores dos itens da roda */
+.wheel-item:nth-child(12n+1) { background: linear-gradient(135deg, #ff6b6b, #ff0000); color: white; } /* Vermelho claro */
+.wheel-item:nth-child(12n+2) { background: linear-gradient(135deg, #ff9a9e, #ff6b6b); color: #1a1a1a; } /* Rosa */
+.wheel-item:nth-child(12n+3) { background: linear-gradient(135deg, #a8e6cf, #7ed4b3); color: #1a1a1a; } /* Verde água */
+.wheel-item:nth-child(12n+4) { background: linear-gradient(135deg, #dcedc1, #b5e8a0); color: #1a1a1a; } /* Verde claro */
+.wheel-item:nth-child(12n+5) { background: linear-gradient(135deg, #ffd3b6, #ffb685); color: #1a1a1a; } /* Pêssego */
+.wheel-item:nth-child(12n+6) { background: linear-gradient(135deg, #ffaaa5, #ff8a80); color: #1a1a1a; } /* Salmão */
+.wheel-item:nth-child(12n+7) { background: linear-gradient(135deg, #ff8b94, #ff6b6b); color: white; } /* Rosa escuro */
+.wheel-item:nth-child(12n+8) { background: linear-gradient(135deg, #b5ead7, #8fd3b8); color: #1a1a1a; } /* Verde água claro */
+.wheel-item:nth-child(12n+9) { background: linear-gradient(135deg, #c7ceea, #a5b1e0); color: #1a1a1a; } /* Azul claro */
+.wheel-item:nth-child(12n+10) { background: linear-gradient(135deg, #e2f0cb, #c5e0a8); color: #1a1a1a; } /* Verde claro */
+.wheel-item:nth-child(12n+11) { background: linear-gradient(135deg, #ffb7b2, #ff8a80); color: #1a1a1a; } /* Rosa salmão */
+.wheel-item:nth-child(12n+12) { background: linear-gradient(135deg, #ffdac1, #ffb77c); color: #1a1a1a; } /* Laranja claro */

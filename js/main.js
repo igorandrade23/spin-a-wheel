@@ -1,163 +1,168 @@
-// the game itself
-var game;
+// Configurações iniciais
+const config = {
+    slices: 12,
+    colors: ['#1a1a1a', '#8B0000', '#4B0082', '#006400', '#8B4513', '#2F4F4F', '#8B008B', '#228B22', '#483D8B', '#556B2F', '#B8860B', '#000000'],
+};
 
-var gameOptions = {
+// Frases e ícones para a roda
+const wheelItems = [
+    { text: 'Bepantol', emoji: '🧼', message: 'Você passou bepantol por uma semana e agora brilha igual bacon!' },
+    { text: 'Coçou', emoji: '🔥', message: 'Tatuou no calor, se coçou no banho, e agora sua tattoo virou arte abstrata.' },
+    { text: 'Vó viu', emoji: '👵', message: 'Sua avó viu e perguntou se virou marginal.' },
+    { text: 'PIX', emoji: '💸', message: 'Gastou todo o PIX e agora vive de miojo. Mas tá estilosa.' },
+    { text: 'Desmaiou', emoji: '💉', message: 'Você desmaiou na linha fina. Mas jurou que foi pressão baixa.' },
+    { text: 'Filtro', emoji: '🧴', message: 'Usou filtro no Instagram pra esconder a casquinha. A beleza tá no healing!' },
+    { text: 'Ex', emoji: '🫣', message: 'Descobriu que o nome do ex não sai com laser tão fácil assim…' },
+    { text: 'Vegana', emoji: '🌿', message: 'Fez a tattoo, virou vegana, está no seu auge espiritual.' },
+    { text: 'Arrependeu', emoji: '👁', message: 'Todo mundo reparou na sua tattoo. Ou no seu arrependimento?' },
+    { text: 'Cicatrizou', emoji: '🕷', message: 'A tattoo cicatrizou linda. Só não mostra porque tá com vergonha da frase.' },
+    { text: 'Obra de arte', emoji: '🎨', message: 'Cliente virou obra de arte. Literalmente. Até a mãe aplaudiu.' },
+    { text: 'Bêbada', emoji: '💀', message: 'Fez a tattoo bêbada. Agora tem um ET nas costas.' }
+];
 
-    // slices (prizes) placed in the wheel
-    slices: 6,
+// Variável global para o confetti
+let confettiEffect = null;
 
-    // prize names, starting from 12 o'clock going clockwise
-    slicePrizes: [
-        "🐉 Dragão Oriental",
-        "🌹 Rosa Realista",
-        "🔯 Mandala Sagrada",
-        "🦅 Águia Americana",
-        "🔱 Tridente Tribal",
-        "☯️ Símbolo Yin Yang"
-    ],
+document.addEventListener('DOMContentLoaded', () => {
+    // Elementos do DOM
+    const wheel = document.getElementById('wheel');
+    const spinBtn = document.getElementById('spin');
+    const resultContainer = document.getElementById('result-container');
+    const resultText = document.getElementById('result-text');
+    const resultIcon = document.getElementById('result-icon');
+    const playAgainBtn = document.getElementById('play-again');
+    const shareBtn = document.getElementById('share');
+    const giftBtn = document.getElementById('gift');
 
-    // wheel rotation duration, in milliseconds
-    rotationTime: 3000
-}
+    let isSpinning = false;
+    let currentRotation = 0;
 
-// once the window loads...
-window.onload = function () {
+    // Inicialização
+    createWheel();
+    setupEventListeners();
 
-    // game configuration object
-    var gameConfig = {
+    function createWheel() {
+        const sliceAngle = 360 / config.slices;
+        const gradientColors = config.colors.map((color, index) => {
+            return `${color} ${index * sliceAngle}deg ${(index + 1) * sliceAngle}deg`;
+        }).join(', ');
 
-        // render type
-        type: Phaser.CANVAS,
+        wheel.style.background = `conic-gradient(${gradientColors})`;
 
-        // game width, in pixels
-        width: 850,
+        const sliceRadius = wheel.offsetWidth / 2;
 
-        // game height, in pixels
-        height: 850,
+        wheelItems.forEach((item, index) => {
+            const itemContainer = document.createElement('div');
+            itemContainer.className = 'wheel-item-container'; // Use a different class for the container
 
-        // game background color
-        backgroundColor: 0x880044,
+            const itemContent = document.createElement('div');
+            itemContent.className = 'wheel-item-content';
 
-        // scenes used by the game
-        scene: [playGame]
-    };
+            const emoji = document.createElement('div');
+            emoji.className = 'emoji';
+            emoji.textContent = item.emoji;
 
-    // game constructor
-    game = new Phaser.Game(gameConfig);
+            const text = document.createElement('div');
+            text.className = 'text';
+            text.textContent = item.text;
 
-    // pure javascript to give focus to the page/frame and scale the game
-    window.focus()
-    resize();
-    window.addEventListener("resize", resize, false);
-}
+            itemContent.appendChild(emoji);
+            itemContent.appendChild(text);
+            itemContainer.appendChild(itemContent);
 
-// PlayGame scene
-class playGame extends Phaser.Scene {
+            const angle = (sliceAngle * index) + (sliceAngle / 2);
+            const rotation = angle * (Math.PI / 180);
+            const x = Math.cos(rotation) * (sliceRadius * 0.65); // 65% from center
+            const y = Math.sin(rotation) * (sliceRadius * 0.65);
 
-    // constructor
-    constructor() {
-        super("PlayGame");
-    }
+            itemContainer.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px) rotate(${angle + 90}deg)`;
 
-    // method to be executed when the scene preloads
-    preload() { // loading assets
-
-        this.load.image("wheel", window.location.href + "images/wheel.png");
-        this.load.image("pin", window.location.href + "images/pin.png");
-    }
-
-    // method to be executed once the scene has been created
-    create() {
-
-        // adding the wheel in the middle of the canvas
-        this.wheel = this.add.sprite(game.config.width / 2, game.config.height / 2, "wheel");
-
-        // adding the pin in the middle of the canvas
-        this.pin = this.add.sprite(game.config.width / 2, game.config.height / 2, "pin");
-
-        // adding the text field
-        this.prizeText = this.add.text(game.config.width / 2, game.config.height - 35, "GIRE A RODA", {
-            font: "bold 64px Rajdhani",
-            align: "center",
-            color: "white"
+            wheel.appendChild(itemContainer);
         });
-
-        // center the text
-        this.prizeText.setOrigin(0.5);
-
-        // the game has just started = we can spin the wheel
-        this.canSpin = true;
-
-        // waiting for your input, then calling "spinWheel" function
-        this.input.on("pointerdown", this.spinWheel, this);
     }
 
-    // function to spin the wheel
-    spinWheel() {
+    function setupEventListeners() {
+        spinBtn.addEventListener('click', spinWheel);
+        playAgainBtn.addEventListener('click', () => {
+            resultContainer.style.display = 'none';
+            resultContainer.style.opacity = '0';
+            spinBtn.disabled = false;
+            spinBtn.focus();
+        });
+        shareBtn.addEventListener('click', shareResult);
+        giftBtn.addEventListener('click', () => {
+            alert('Mostre este resultado na recepção da Akasha para ganhar seu mimo especial!');
+        });
+    }
 
-        // can we spin the wheel?
-        if (this.canSpin) {
+    function spinWheel() {
+        if (isSpinning) return;
+        isSpinning = true;
+        spinBtn.disabled = true;
 
-            // resetting text field
-            this.prizeText.setText("");
+        const randomSpins = Math.floor(Math.random() * 5) + 5; // 5 to 10 full spins
+        const randomStopAngle = Math.floor(Math.random() * 360);
+        const totalRotation = (randomSpins * 360) + randomStopAngle;
 
-            // the wheel will spin round from 2 to 4 times. This is just coreography
-            var rounds = Phaser.Math.Between(4, 6);
+        currentRotation += totalRotation;
+        wheel.style.transition = 'transform 5s cubic-bezier(0.25, 0.1, 0.25, 1)';
+        wheel.style.transform = `rotate(${currentRotation}deg)`;
 
-            // then will rotate by a random number from 0 to 360 degrees. This is the actual spin
-            var degrees = Phaser.Math.Between(0, 360);
+        wheel.addEventListener('transitionend', () => {
+            const finalRotation = currentRotation % 360;
+            const sliceAngle = 360 / config.slices;
+            const winningIndex = Math.floor((360 - finalRotation + (sliceAngle / 2)) % 360 / sliceAngle);
 
-            // before the wheel ends spinning, we already know the prize according to "degrees" rotation and the number of slices
-            var prize = gameOptions.slices - 1 - Math.floor(degrees / (360 / gameOptions.slices));
+            showResult(winningIndex);
+            isSpinning = false;
+        }, { once: true });
+    }
 
-            // now the wheel cannot spin because it's already spinning
-            this.canSpin = false;
+    function showResult(index) {
+        const winner = wheelItems[index];
+        resultText.textContent = winner.message;
+        resultIcon.innerHTML = `<div class="emoji">${winner.emoji}</div>`;
 
-            // animation tweeen for the spin: duration 3s, will rotate by (360 * rounds + degrees) degrees
-            // the quadratic easing will simulate friction
-            this.tweens.add({
+        resultContainer.style.display = 'flex';
+        setTimeout(() => {
+            resultContainer.style.opacity = '1';
+            if (typeof triggerConfetti === 'function') {
+                if (confettiEffect) confettiEffect.stop();
+                confettiEffect = triggerConfetti();
+            }
+        }, 100);
+    }
 
-                // adding the wheel to tween targets
-                targets: [this.wheel],
+    function shareResult() {
+        navigator.share({
+            title: 'Tattouleta do Destino',
+            text: `Minha sorte na Tattouleta: ${resultText.textContent}`,
+            url: window.location.href
+        }).catch(console.error);
+    }
 
-                // angle destination
-                angle: 360 * rounds + degrees,
+    document.body.classList.add('js-enabled');
 
-                // tween duration
-                duration: gameOptions.rotationTime,
-
-                // tween easing
-                ease: "Cubic.easeOut",
-
-                // callback scope
-                callbackScope: this,
-
-                // function to be executed once the tween has been completed
-                onComplete: function (tween) {
-                    // displaying prize text
-                    this.prizeText.setText("Você ganhou: " + gameOptions.slicePrizes[prize]);
-
-                    // player can spin again
-                    this.canSpin = true;
-                }
-            });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && resultContainer.style.display === 'flex') {
+            playAgainBtn.click();
         }
-    }
-}
+        if (e.key === ' ' && !spinBtn.disabled) {
+            e.preventDefault();
+            spinWheel();
+        }
+    });
 
-// pure javascript to scale the game
-function resize() {
-    var canvas = document.querySelector("canvas");
-    var windowWidth = window.innerWidth;
-    var windowHeight = window.innerHeight;
-    var windowRatio = windowWidth / windowHeight;
-    var gameRatio = game.config.width / game.config.height;
-    if (windowRatio < gameRatio) {
-        canvas.style.width = windowWidth + "px";
-        canvas.style.height = (windowWidth / gameRatio) + "px";
-    }
-    else {
-        canvas.style.width = (windowHeight * gameRatio) + "px";
-        canvas.style.height = windowHeight + "px";
-    }
-}
+    document.querySelectorAll('button, [role="button"]').forEach(button => {
+        button.setAttribute('tabindex', '0');
+        button.setAttribute('role', 'button');
+        button.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                button.click();
+            }
+        });
+    });
+});
+
+

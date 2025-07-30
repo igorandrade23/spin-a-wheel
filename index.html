@@ -1,12 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR" data-theme="dark">
 <head>
-    <title>Spin N Win</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Descubra seu destino na Tattouleta! Um jogo divertido e interativo com tema de estúdio de tatuagem.">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Tattouleta do Destino - Akasha Tattoo</title>
+    
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Estilos -->
     <link rel="stylesheet" href="css/main.css">
-    <script src="js/phaser.min.js"></script>
-    <script src="js/main.js"></script>
 </head>
 <body>
+    <div class="container">
+        <div class="game-title">
+            <h1>Tattouleta</h1>
+            <h2>do Destino</h2>
+        </div>
+        
+        <div class="wheel-container">
+            <div class="wheel" id="wheel"></div>
+            <div class="pointer">
+                <i class="fas fa-arrow-down"></i>
+            </div>
+            <div class="wheel-center"></div>
+        </div>
+
+        <div class="result-container" id="result-container">
+            <div class="result-content">
+                <div id="result-icon"></div>
+                <p id="result-text"></p>
+                <div class="result-actions" id="result-actions">
+                    <button id="play-again" class="action-btn"><i class="fas fa-redo"></i> Jogar de novo</button>
+                    <button id="share" class="action-btn"><i class="fas fa-share-alt"></i> Compartilhar</button>
+                    <button id="gift" class="action-btn gift-btn"><i class="fas fa-gift"></i> Ganhe um mimo!</button>
+                </div>
+            </div>
+        </div>
+
+        <button id="spin" class="spin-btn">GIRAR</button>
+    </div>
+
+    <!-- Carrega primeiro o confetti.js -->
+    <script src="js/confetti.js"></script>
+    <!-- Depois o main.js que depende do confetti -->
+    <script src="js/main.js"></script>
 </body>
 </html>
