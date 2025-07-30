@@ -71,6 +71,9 @@ document.addEventListener('DOMContentLoaded', () => {
             itemContainer.appendChild(itemContent);
 
             const angle = (sliceAngle * index) + (sliceAngle / 2);
+
+            // A rotação do contêiner é (angle + 90). A contra-rotação do conteúdo deve ser o inverso.
+            itemContent.style.transform = `rotate(-${angle + 90}deg)`;
             const rotation = angle * (Math.PI / 180);
             const x = Math.cos(rotation) * (sliceRadius * 0.65); // 65% from center
             const y = Math.sin(rotation) * (sliceRadius * 0.65);

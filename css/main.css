@@ -122,45 +122,21 @@ body {
 }
 
 /* Itens da roda */
-.wheel-item {
+.wheel-item-container {
     position: absolute;
-    width: 50%;
-    height: 50%;
-    transform-origin: 100% 100%;
-    left: 0;
-    top: 0;
-    box-sizing: border-box;
-    color: white;
-    font-weight: bold;
-    font-size: 16px;
-    overflow: hidden;
-    border-right: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.4);
-    transition: all 0.3s ease;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    left: 50%;
+    top: 50%;
+    transform-origin: center; /* A origem da transformação é o centro */
 }
 
-/* Efeito de hover nos itens */
-.wheel-item:hover {
-    filter: brightness(1.1);
-}
-
-/* Conteúdo dos itens */
-.wheel-item span {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+.wheel-item-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    transform-origin: center center;
-    transform: rotate(calc(var(--rotation, 0) * 1deg)) translateY(-50%);
-    padding: 0;
-    margin: 0;
-    pointer-events: none;
+    text-align: center;
+    color: white;
 }
-
 /* Estilos movidos para o JavaScript */
 
 /* Estilos movidos para o JavaScript */
@@ -228,16 +204,7 @@ body {
 }
 
 /* Conteúdo dos itens da roda */
-.wheel-item-content {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-    padding: 10px;
-}
+
 
 .wheel-item .emoji {
     font-size: 1.8em;
