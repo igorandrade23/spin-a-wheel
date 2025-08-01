@@ -70,11 +70,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const emoji = document.createElement('div');
             emoji.className = 'emoji';
             emoji.textContent = item.emoji;
+            
+            // Se for mobile, adiciona classe para centralizar o emoji
+            if (window.innerWidth < 768) {
+                emoji.classList.add('emoji-mobile');
+            }
 
             // Cria o texto
             const text = document.createElement('div');
             text.className = 'text';
-            text.textContent = item.text;
+            // Verifica se é mobile (largura menor que 768px)
+            const isMobile = window.innerWidth < 768;
+            text.textContent = isMobile ? '' : item.text;
 
             // Adiciona o emoji e o texto ao conteúdo da fatia
             itemContent.appendChild(emoji);
@@ -94,14 +101,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Move o contêiner para o centro e aplica a rotação
             itemContainer.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px) rotate(${angle + 90}deg)`;
-
+            
             wheel.appendChild(itemContainer);
+        });
+    }
+
+    function updateTextForMobile() {
+        const isMobile = window.innerWidth < 768;
+        const textElements = document.querySelectorAll('.text');
+        const emojiElements = document.querySelectorAll('.emoji');
+        
+        textElements.forEach((text, index) => {
+            text.textContent = isMobile ? '' : wheelItems[index].text;
+        });
+        
+        // Atualiza a classe dos emojis
+        emojiElements.forEach(emoji => {
+            if (isMobile) {
+                emoji.classList.add('emoji-mobile');
+            } else {
+                emoji.classList.remove('emoji-mobile');
+            }
         });
     }
 
     function setupEventListeners() {
         // Adiciona os listeners
         spinBtn.addEventListener('click', spinWheel);
+        
+        // Atualiza a exibição do texto quando a janela for redimensionada
+        window.addEventListener('resize', updateTextForMobile);
         playAgainBtn.addEventListener('click', () => {
             resultContainer.style.display = 'none';
             resultContainer.style.opacity = '0';

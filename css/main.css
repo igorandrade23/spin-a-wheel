@@ -134,6 +134,13 @@ body {
     font-size: 3.5vmin;
 }
 
+/* Estilo para centralizar o emoji em dispositivos móveis */
+.emoji-mobile {
+    top: 40% !important;
+    transform: translate(-50%, -50%) !important;
+    font-size: 5vmin !important;
+}
+
 .wheel-item-content .text {
     position: absolute;
     bottom: 30%; /* Posição do texto, perto do centro */
