@@ -92,7 +92,42 @@ body {
     font-family: 'Bebas Neue', cursive;
 }
 
-
+/* Ajustes para dispositivos móveis */
+@media (max-width: 768px) {
+    .game-title h1 {
+        font-size: 3em;
+        justify-items: center;
+    }
+    
+    .wheel-container {
+        width: 90vmin!important;
+        height: 90vmin!important;
+    }
+    
+    .wheel-item-content .text {
+        font-size: 2.2vmin;
+        justify-items: center;
+    }
+    
+    .result-content {
+        padding: 20px 15px;
+    }
+    
+    #result-text {
+        font-size: 1.2em;
+    }
+    
+    .result-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .action-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 20px;
+    }
+}
 
 /* Container da roda */
 .wheel-container {

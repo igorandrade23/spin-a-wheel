@@ -1,43 +1,39 @@
-# 🎨 Tattouleta do Destino
+# 🎡 Roletas Interativas
 
-**[➡️ Teste a Tattouleta aqui!](https://spin-a-wheel.vercel.app)**
+**[➡️ Teste as Roletas Aqui!](https://spin-a-wheel.vercel.app)**
 
-## Sobre o Projeto
+## 🎨 Sobre o Projeto
 
-A Tattouleta do Destino é uma roleta interativa e bem-humorada que decide a sua "sorte" no mundo da tatuagem.
+Bem-vindo ao mundo das Roletas Interativas! Um projeto leve e divertido que reúne duas experiências únicas:
 
-Este projeto foi criado para treinar habilidades de desenvolvimento web e, principalmente, para nos divertirmos no processo.
+1. **Roda da Tattoo**: Uma roleta temática de tatuagem que decide seu próximo destino artístico de forma divertida e imprevisível.
+2. **Roleta de Cartas**: Um jogo de cartas interativo onde a roleta auxilia quais cartas jogar, perfeito para momentos de diversão com amigos.
 
-## ✨ Tecnologias Mágicas
+## 🎮 Como Jogar
 
-Nenhuma biblioteca ou framework complicado foi usado aqui. Apenas o trio de poder da web:
+### Roda da Tattoo
+- Gire a roleta e descubra qual será seu próximo estilo de tatuagem
+- Cada giro é uma nova surpresa
+- Ideal para quem está em dúvida sobre qual tatuagem fazer
 
--   **HTML5**: Para a estrutura básica da página.
--   **CSS3**: Onde a mágica visual acontece! Usamos `conic-gradient` para criar as fatias coloridas da roleta, `transform` para as animações de rotação e `clip-path` para os cortes precisos.
--   **JavaScript**: O cérebro por trás de tudo. O JS é responsável por:
-    -   Criar a roleta e suas fatias dinamicamente.
-    -   Calcular o posicionamento e a contra-rotação do texto para que ele fique sempre legível.
-    -   Controlar a animação de giro e calcular o resultado com uma precisão matemática invejável.
+### Jogo de Cartas (Cartink)
+- A roleta define suas jogadas no jogo de cartas
+- Perfeito para partidas descontraídas
+- Ideal para jogar em grupo e se divertir
 
-## 🧙‍♂️ Como a Mágica Acontece
+## 🚀 Como Usar
 
-1.  **A Roleta Nasce**: A roleta não é uma imagem, mas sim um `div` cujo fundo é um `conic-gradient` gerado dinamicamente via JavaScript. Isso nos permite trocar as cores com facilidade.
-2.  **O Texto Desafiador**: Fazer o texto ficar em pé enquanto a roleta gira foi o nosso maior desafio. A solução? Um truque de mestre com CSS `transform`: rotacionamos o contêiner do texto junto com a fatia e, em seguida, aplicamos uma **contra-rotação** no próprio texto para mantê-lo sempre na vertical.
-3.  **O Giro da Sorte**: A animação de giro usa `transition` com uma função `cubic-bezier` para dar aquela sensação suave de aceleração e desaceleração. Quando a roleta para, o JavaScript calcula o ângulo final e determina qual foi a fatia vencedora.
+1. Acesse o site: [https://spin-a-wheel.vercel.app](https://spin-a-wheel.vercel.app)
+2. Escolha entre a Roda da Tattoo ou o Jogo de Cartas
+3. Clique para girar a roleta
+4. Divirta-se com o resultado!
 
-## 🚀 Como Rodar Localmente
+## 💡 Dicas
 
-Quer brincar com o código? É muito simples:
+- A roleta funciona perfeitamente em celulares e computadores
+- Os resultados são aleatórios - cada giro é uma nova aventura
+- Compartilhe seu resultado nas redes sociais e desafie seus amigos
 
-1.  Clone este repositório:
-    ```bash
-    git clone https://github.com/igorandrade23/spin-a-wheel.git
-    ```
-2.  Abra o arquivo `index.html` no seu navegador favorito.
-3.  Pronto! Gire a roleta e divirta-se.
+## 🤝 Contribuições
 
-## 🏆 Créditos
-
--   **Desenvolvedor**: [Igor Andrade](https://github.com/igorandrade23)
-
-Feito com muito código, criatividade e algumas risadas.
+Encontrou um bug? Tem uma ideia legal? Sinta-se à vontade para abrir uma issue ou enviar um pull request!
