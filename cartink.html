@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Roleta Cartink - Descubra sua próxima tatuagem com a roleta de inspiração!">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Roleta Cartink - Encontre sua inspiração</title>
+    
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&family=Permanent+Marker&display=swap" rel="stylesheet">
+    
+    <!-- Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="css/cartink.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="main-nav">
+            <a href="index.html" class="nav-link">Roda da Tattoo</a>
+            <span class="nav-separator">|</span>
+            <a href="cartink.html" class="nav-link active">Roleta Cartink</a>
+        </nav>
+        
+        <div class="game-title">
+            <h1>ROLETA CARTINK</h1>
+        </div>
+        
+        <div class="wheel-container">
+            <div class="wheel" id="wheel"></div>
+            <div class="pointer">
+                <i class="fas fa-arrow-down"></i>
+            </div>
+            <div class="wheel-center"></div>
+        </div>
+
+        <div class="result-container" id="result-container">
+            <div class="result-content">
+                <div id="result-icon"></div>
+                <p id="result-text"></p>
+                <div class="result-actions" id="result-actions">
+                    <button id="play-again" class="action-btn"><i class="fas fa-redo"></i> Jogar de novo</button>
+                </div>
+            </div>
+        </div>
+
+        <button id="spin" class="spin-btn">GIRAR</button>
+    </div>
+
+    <!-- Carrega o script da roleta -->
+    <script src="js/cartink.js"></script>
+</body>
+</html>
