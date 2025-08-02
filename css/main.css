@@ -102,6 +102,8 @@ body {
     .wheel-container {
         width: 90vmin!important;
         height: 90vmin!important;
+        max-width: 90vw!important;
+        max-height: 90vw!important;
     }
     
     .wheel-item-content .text {
