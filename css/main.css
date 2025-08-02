@@ -16,6 +16,42 @@
     --dark-gray: #121212;
 }
 
+/* Navigation */
+.main-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 0;
+    margin-bottom: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-link {
+    color: var(--white);
+    text-decoration: none;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--pink);
+}
+
+.nav-separator {
+    color: rgba(255, 255, 255, 0.3);
+    margin: 0 5px;
+    font-weight: bold;
+}
+
 /* Estilos gerais */
 * {
     margin: 0;
@@ -61,9 +97,16 @@ body {
 /* Container da roda */
 .wheel-container {
     position: relative;
-    width: 90vmin; /* 90% da menor dimensão da tela */
-    height: 90vmin;
-    margin: 0;
+    width: 80vmin;
+    height: 80vmin;
+    max-width: 120vw;
+    max-height: 120vw;
+    margin: 0 auto;
+    /* Garante que a roleta seja sempre um quadrado perfeito */
+    aspect-ratio: 1 / 1;
+    /* Limita o tamanho máximo */
+    max-width: min(1200px, 90vh);
+    max-height: min(1200px, 90vh);
     background: #f9e095; /* Cor da borda da roleta */
     border-radius: 50%;
     padding: 15px;
@@ -126,7 +169,7 @@ body {
     color: #000000;
 }
 
-.wheel-item-content .emoji {
+.emoji {
     position: absolute;
     top: 90%; /* Posição do emoji, perto da borda */
     left: 50%;
@@ -136,9 +179,9 @@ body {
 
 /* Estilo para centralizar o emoji em dispositivos móveis */
 .emoji-mobile {
-    top: 40% !important;
+    top: 60% !important;
     transform: translate(-50%, -50%) !important;
-    font-size: 5vmin !important;
+    font-size: 7vmin !important;
 }
 
 .wheel-item-content .text {
@@ -270,10 +313,18 @@ body {
 }
 
 .result-icon {
-    font-size: 4em;
+    font-size: 3em; /* Aumentei o tamanho do emoji */
     margin-bottom: 20px;
     color: var(--red);
     text-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+    display: block; /* Garante que o emoji fique em uma nova linha */
+    line-height: 1.2; /* Melhora o espaçamento vertical */
+    margin: 0 auto 20px; /* Centraliza horizontalmente e adiciona espaço abaixo */
+    text-align: center; /* Centraliza o emoji */
+    position: relative; /* Remove o posicionamento absoluto */
+    top: auto;
+    left: auto;
+    transform: none;
 }
 
 .result-text {

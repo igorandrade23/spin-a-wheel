@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Mostra o resultado
         const winner = wheelItems[index];
         resultText.textContent = winner.text;
-        resultIcon.innerHTML = `<div class="emoji">${winner.emoji}</div>`;
+        resultIcon.innerHTML = `<div class="result-icon">${winner.emoji}</div>`;
 
         resultContainer.style.display = 'flex';
         setTimeout(() => {
